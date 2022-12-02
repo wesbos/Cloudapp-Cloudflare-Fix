@@ -24,11 +24,22 @@ async function handleRequest(request: Request) {
   const parts = request.url.split('/');
 
   if(parts.length !== 5 || !parts[4].startsWith('co')) {
+
+    class CopyLinkHandler implements HTMLRewriterElementContentHandlers {
+      element(element: Element): void | Promise<void> {
+        element.setAttribute('href', `${request.url}/content`).setInnerContent('🔗 Direct')
+      }
+    }
+
+
     // this is a regular request, forward it
     // example: https://wes.io/z8ulwqom
     // But first we add some Custom CSS to it
     const res = await fetch(buildURL(request.url));
-    return new HTMLRewriter().on('head', new ElementHandler()).transform(res);
+    return new HTMLRewriter()
+      .on('head', new ElementHandler())
+      .on('.sign-in-btn', new CopyLinkHandler())
+      .transform(res);
   }
   // otherwise this is a content response, we need to fetch it and return the image
   // Example: https://wes.io/z8ulwqom/content.png
