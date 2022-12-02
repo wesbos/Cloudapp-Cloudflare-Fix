@@ -23,7 +23,7 @@ class ElementHandler implements HTMLRewriterElementContentHandlers {
 class CopyLinkHandler implements HTMLRewriterElementContentHandlers {
   constructor(private request: Request) {}
   element(element: Element): void | Promise<void> {
-    element.setAttribute('href', `${this.request.url}/content`).setInnerContent('🔗 Direct')
+    element.setAttribute('href', `${this.request.url}${this.request.url.endsWith('/') ? '' : '/'}content`).setInnerContent('🔗 Direct')
   }
 }
 
