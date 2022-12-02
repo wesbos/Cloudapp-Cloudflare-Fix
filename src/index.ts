@@ -20,16 +20,18 @@ class ElementHandler implements HTMLRewriterElementContentHandlers {
   }
 }
 
+class CopyLinkHandler implements HTMLRewriterElementContentHandlers {
+  constructor(private request: Request) {}
+  element(element: Element): void | Promise<void> {
+    element.setAttribute('href', `${this.request.url}/content`).setInnerContent('🔗 Direct')
+  }
+}
+
+
 async function handleRequest(request: Request) {
   const parts = request.url.split('/');
 
   if(parts.length !== 5 || !parts[4].startsWith('co')) {
-
-    class CopyLinkHandler implements HTMLRewriterElementContentHandlers {
-      element(element: Element): void | Promise<void> {
-        element.setAttribute('href', `${request.url}/content`).setInnerContent('🔗 Direct')
-      }
-    }
 
 
     // this is a regular request, forward it
@@ -38,7 +40,7 @@ async function handleRequest(request: Request) {
     const res = await fetch(buildURL(request.url));
     return new HTMLRewriter()
       .on('head', new ElementHandler())
-      .on('.sign-in-btn', new CopyLinkHandler())
+      .on('.sign-in-btn', new CopyLinkHandler(request))
       .transform(res);
   }
   // otherwise this is a content response, we need to fetch it and return the image
