@@ -5,7 +5,7 @@ This code uses a cloudflare worker to proxy Cloudapp and add in features that we
 Two things:
 
 1. Linking directly to image content: https://wes.io/d5uybeNB/content.png
-2. Adding Custom CSS
+2. Adding Custom CSS to the viewer page: https://wes.io/d5uybeNB/
 
 ## This is cool
 
