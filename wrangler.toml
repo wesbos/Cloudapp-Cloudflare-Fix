@@ -1,0 +1,10 @@
+name = "cloudapp-fix"
+main = "src/index.ts"
+compatibility_date = "2022-12-02"
+# route = "*wes.io/*"
+routes = [{pattern = "*wes.io/*", zone_id ="22bee09eaa88584c2467472cc73ee6d7"}]
+usage_model = "bundled"
+env = { }
+
+[triggers]
+crons = [ ]
