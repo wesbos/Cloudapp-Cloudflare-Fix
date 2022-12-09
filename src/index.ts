@@ -4,7 +4,7 @@ addEventListener('fetch', event => {
   return event.respondWith(handleRequest(event.request))
 });
 
-const BASE = 'wes.io';
+const BASE = 'share.getcloudapp.com';
 
 function buildURL(url: string) {
   const urlObject = new URL(url);
@@ -30,6 +30,10 @@ class CopyLinkHandler implements HTMLRewriterElementContentHandlers {
 
 async function handleRequest(request: Request) {
   const parts = request.url.split('/');
+  // handle home page visit. Probably a better way to do this.
+  if (request.url === 'https://wes.io/' || request.url === 'https://wes.io') {
+    return Response.redirect('https://wesbos.com', 302);
+  }
 
   if(parts.length !== 5 || !parts[4].startsWith('co')) {
 
